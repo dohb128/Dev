@@ -43,7 +43,12 @@ app.get('/users/:id', function (req, res) {
     const user = users.get(id.toString())
 
     if (user) {
-        res.json(user)
+        const userInfo = {
+            userId : user.userId,
+            userName : user.userName
+        }
+
+        res.json(userInfo)
     } else {
         res.status(404).json({
             message: "회원 정보를 찾을 수 없습니다."
