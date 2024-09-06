@@ -48,7 +48,7 @@ app.get('/users/:id', function (req, res) {
             userName : user.userName
         }
 
-        res.json(userInfo)
+        res.status(200).json(userInfo)
     } else {
         res.status(404).json({
             message: "회원 정보를 찾을 수 없습니다."
@@ -64,7 +64,7 @@ app.delete('/users/:id', function (req, res) {
     if (user) {
         users.delete(id)
 
-        res.json({
+        res.status(200).json({
             message: `${user.userId}님 다음에 또 뵙겠습니다.`
         })
     } else {
