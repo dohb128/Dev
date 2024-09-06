@@ -56,7 +56,7 @@ app.get('/users/:id', function (req, res) {
     }
 })
 
-//GET - 회원 개별 탈퇴
+//DELETE - 회원 개별 탈퇴
 app.delete('/users/:id', function (req, res) {
     let { id } = req.params
     const user = users.get(id.toString())
