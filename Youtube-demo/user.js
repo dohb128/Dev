@@ -1,16 +1,15 @@
 // express 모듈 세팅
 const express = require('express')
-const app = express()
-app.listen(7777)
+const router = express.Router()
 
 // json 모듈 설정
-app.use(express.json())
+router.use(express.json())
 
 // 회원 데이터 저장
 let users = new Map()
 
 // 회원 관련 라우팅
-app.route('/users')
+router.route('/join')
     // POST - 회원가입
     .post((req, res) => {
         const user = req.body
@@ -32,11 +31,11 @@ app.route('/users')
         }
     })
 
-app.route('/users/:id')
+router.route('/users')
     // GET - 회원 개별 조회
     .get((req, res) => {
-        let { id } = req.params
-        const user = users.get(id.toString())
+        let { userId } = req.body
+        const user = users.get(userId)
         if (user) {
             const userInfo = {
                 userId: user.userId,
@@ -51,10 +50,10 @@ app.route('/users/:id')
     })
     // DELETE - 회원 개별 탈퇴
     .delete((req, res) => {
-        let { id } = req.params
-        const user = users.get(id.toString())
+        let { userId } = req.body
+        const user = users.get(userId)
         if (user) {
-            users.delete(id)
+            users.delete(userId)
             res.status(200).json({
                 message: `${user.userId}님 다음에 또 뵙겠습니다.`
             })
@@ -66,7 +65,7 @@ app.route('/users/:id')
     })
 
 // POST - 로그인
-app.post('/login', (req, res) => {
+router.post('/login', (req, res) => {
     const { userId, userPw } = req.body
 
     if (users.has(userId)) {  // users에 ID가 존재하는지 확인
@@ -86,3 +85,5 @@ app.post('/login', (req, res) => {
         })
     }
 })
+
+module.exports = router
